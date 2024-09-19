@@ -10435,33 +10435,33 @@ void UniversalPrint(const T& value, ::std::ostream* os);
 
 // Used to print an STL-style container when the user doesn't define
 // a PrintTo() for it.
-template <typename C>
-void DefaultPrintTo(IsContainer /* dummy */,
-                    false_type /* is not a pointer */,
-                    const C& container, ::std::ostream* os) {
-  const size_t kMaxCount = 32;  // The maximum number of elements to print.
-  *os << '{';
-  size_t count = 0;
-  for (typename C::const_iterator it = container.begin();
-       it != container.end(); ++it, ++count) {
-    if (count > 0) {
-      *os << ',';
-      if (count == kMaxCount) {  // Enough has been printed.
-        *os << " ...";
-        break;
-      }
-    }
-    *os << ' ';
-    // We cannot call PrintTo(*it, os) here as PrintTo() doesn't
-    // handle *it being a native array.
-    internal::UniversalPrint(*it, os);
-  }
+// template <typename C>
+// void DefaultPrintTo(IsContainer /* dummy */,
+//                     false_type /* is not a pointer */,
+//                     const C& container, ::std::ostream* os) {
+//   const size_t kMaxCount = 32;  // The maximum number of elements to print.
+//   *os << '{';
+//   size_t count = 0;
+//   for (typename C::const_iterator it = container.begin();
+//        it != container.end(); ++it, ++count) {
+//     if (count > 0) {
+//       *os << ',';
+//       if (count == kMaxCount) {  // Enough has been printed.
+//         *os << " ...";
+//         break;
+//       }
+//     }
+//     *os << ' ';
+//     // We cannot call PrintTo(*it, os) here as PrintTo() doesn't
+//     // handle *it being a native array.
+//     internal::UniversalPrint(*it, os);
+//   }
 
-  if (count > 0) {
-    *os << ' ';
-  }
-  *os << '}';
-}
+//   if (count > 0) {
+//     *os << ' ';
+//   }
+//   *os << '}';
+// }
 
 // Used to print a pointer that is neither a char pointer nor a member
 // pointer, when the user doesn't define PrintTo() for it.  (A member

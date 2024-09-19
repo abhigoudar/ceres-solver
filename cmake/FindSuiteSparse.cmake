@@ -291,18 +291,18 @@ if (SUITESPARSEQR_FOUND)
   # SuiteSparseQR may be compiled with Intel Threading Building Blocks,
   # we assume that if TBB is installed, SuiteSparseQR was compiled with
   # support for it, this will do no harm if it wasn't.
-  find_package(TBB QUIET)
   if (TBB_FOUND)
     message(STATUS "Found Intel Thread Building Blocks (TBB) library "
-      "(${TBB_VERSION}) assuming SuiteSparseQR was compiled "
-      "with TBB.")
-    # Add the TBB libraries to the SuiteSparseQR libraries (the only
-    # libraries to optionally depend on TBB).
-    list(APPEND SUITESPARSEQR_LIBRARY ${TBB_LIBRARIES})
-  else()
+    "(${TBB_VERSION_MAJOR}.${TBB_VERSION_MINOR} / ${TBB_INTERFACE_VERSION}). "
+    "Assuming SuiteSparseQR was compiled with TBB.")
+  # Add the TBB libraries to the SuiteSparseQR libraries (the only
+  # libraries to optionally depend on TBB).
+  set_property (TARGET SuiteSparse::SPQR APPEND PROPERTY
+    INTERFACE_LINK_LIBRARIES TBB::tbb)
+  else (TBB_FOUND)
     message(STATUS "Did not find Intel TBB library, assuming SuiteSparseQR was "
-      "not compiled with TBB.")
-  endif()
+    "not compiled with TBB.")
+  endif (TBB_FOUND)
 endif(SUITESPARSEQR_FOUND)
 
 # UFconfig / SuiteSparse_config.
